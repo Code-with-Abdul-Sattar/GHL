@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdul Sattar — GoHighLevel CRM & Funnel Specialist</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --black:        #111111;
+      --surface:      #181818;
+      --surface2:     #1f1f1f;
+      --blue:         #3b82f6;
+      --blue-dim:     rgba(59, 130, 246, 0.12);
+      --blue-border:  rgba(59, 130, 246, 0.25);
+      --white:        #ffffff;
+      --gray:         #c8c8c8;
+      --muted:        #888888;
+      --font-display: 'Dancing Script', cursive;
+      --font-serif:   'Playfair Display', serif;
+      --font-mono:    'Space Mono', monospace;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--black); color: var(--white); line-height: 1.6; overflow-x: hidden; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .section--alt { background: rgba(59, 130, 246, 0.025); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 12px rgba(59,130,246,.5); }
+      50%       { text-shadow: 0 0 28px rgba(59,130,246,.95); }
+    }
+    @keyframes fade-up {
+      from { opacity:0; transform:translateY(44px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    /* FIXED: float only runs on hovered card, not all cards at once */
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-5px); }
+    }
+    @keyframes orbit {
+      from { transform:translateX(-50%) rotate(0deg); }
+      to   { transform:translateX(-50%) rotate(360deg); }
+    }
+    @keyframes marquee {
+      from { transform:translateX(0); }
+      to   { transform:translateX(-50%); }
+    }
+    /* FIXED: shimmer only on hovered bars */
+    @keyframes shimmer {
+      0%   { left:-100%; }
+      100% { left:200%; }
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow:0 0 0 0 rgba(59,130,246,.4); }
+      50%      { box-shadow:0 0 0 10px rgba(59,130,246,0); }
+    }
+
+    /* ── HEADER ── */
+    header {
+      position:fixed; top:0; width:100%;
+      backdrop-filter:blur(12px);
+      background:rgba(17,17,17,.94);
+      border-bottom:1px solid var(--blue-border);
+      z-index:1000; padding:.9rem 0;
+    }
+    nav { display:flex; justify-content:space-between; align-items:center; }
+    .logo {
+      font-family:var(--font-display); font-size:1.65rem; font-weight:700;
+      background:linear-gradient(135deg,var(--blue),rgba(255,255,255,.4));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .nav-links { display:flex; gap:1.8rem; list-style:none; }
+    .nav-links a {
+      color:var(--gray); text-decoration:none; font-size:.85rem;
+      font-weight:500; letter-spacing:.5px; position:relative; transition:color .3s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; width:0; height:1.5px;
+      background:var(--blue); transition:width .3s;
+    }
+    .nav-links a:hover { color:var(--blue); }
+    .nav-links a:hover::after { width:100%; }
+    .menu-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:.5rem; margin:-.5rem; }
+    .menu-toggle span { width:24px; height:2px; background:var(--blue); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      margin-top:60px; position:relative; overflow:hidden; padding:2rem 0;
+    }
+    .orbit-ring { position:absolute; border:1px solid rgba(59,130,246,.08); border-radius:50%; top:5%; left:50%; }
+    .orbit-ring--sm { width:340px; height:340px; animation:orbit 22s linear infinite; }
+    .orbit-ring--lg { width:560px; height:560px; animation:orbit 34s linear infinite reverse; }
+    .hero__inner { text-align:center; z-index:2; animation:fade-up .9s ease-out; }
+    .hero__eyebrow { font-size:.8rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:.6rem; }
+    .hero__name { display:block; font-family:var(--font-display); font-size:clamp(3rem,11vw,6.8rem); font-weight:700; color:var(--blue); line-height:1.05; animation:glow 3s ease-in-out infinite; }
+    .hero__role { font-size:clamp(.9rem,2.2vw,1.15rem); font-weight:300; letter-spacing:2.5px; color:var(--gray); text-transform:uppercase; margin:.5rem 0 1.6rem; }
+    .hero__pitch { max-width:620px; margin:0 auto 2rem; color:var(--gray); font-size:1rem; line-height:1.8; border-top:1px solid var(--blue-border); border-bottom:1px solid var(--blue-border); padding:.9rem 0; }
+    .hero__stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; margin:2rem 0; }
+    .stat-card { background:var(--blue-dim); border:1px solid var(--blue-border); border-radius:12px; padding:1.4rem 1rem; display:flex; flex-direction:column; align-items:center; gap:.6rem; transition:border-color .3s, transform .3s; }
+    .stat-card:hover { border-color:var(--blue); transform:translateY(-4px); }
+    .stat-card__number { font-family:var(--font-mono); font-size:1.7rem; color:var(--blue); font-weight:700; }
+    .stat-card__label { font-size:.72rem; color:var(--gray); text-transform:uppercase; letter-spacing:1px; }
+    .cta-row { display:inline-flex; gap:1rem; margin-top:1.8rem; }
+
+    .btn { display:inline-flex; align-items:center; gap:.5rem; padding:.85rem 2rem; border:none; cursor:pointer; border-radius:6px; font-weight:600; font-size:.82rem; letter-spacing:.8px; text-transform:uppercase; text-decoration:none; transition:all .3s; font-family:var(--font-body); }
+    .btn--primary { background:var(--blue); color:var(--black); box-shadow:0 8px 24px rgba(59,130,246,.3); }
+    .btn--primary:hover { transform:translateY(-3px); box-shadow:0 14px 34px rgba(59,130,246,.48); }
+    .btn--ghost { background:transparent; color:var(--blue); border:2px solid var(--blue); }
+    .btn--ghost:hover { background:var(--blue); color:var(--black); }
+
+    /* ── SECTION HEADERS ── */
+    .section-header { margin-bottom:3rem; }
+    .section-header__tag { display:block; width:fit-content; font-size:.7rem; text-transform:uppercase; letter-spacing:2px; color:var(--blue); border:1px solid var(--blue-border); padding:.3rem .9rem; border-radius:50px; margin-bottom:.8rem; }
+    .section-header__title { font-family:var(--font-serif); font-size:clamp(1.9rem,4.5vw,3rem); font-weight:800; color:var(--white); display:block; position:relative; }
+    .section-header__title::after { content:''; position:absolute; bottom:-10px; left:0; width:44px; height:3px; background:var(--blue); border-radius:2px; }
+    .section-header__sub { color:var(--gray); font-size:.95rem; margin-top:1.4rem; max-width:520px; line-height:1.7; }
+
+    /* ── ABOUT ── */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    .about-text h3 { font-family:var(--font-serif); font-size:1.75rem; color:var(--blue); margin-bottom:1rem; }
+    .about-text p { color:var(--gray); margin-bottom:1.1rem; font-size:.97rem; line-height:1.85; }
+    .about-right { display:flex; flex-direction:column; gap:1.3rem; align-self:start; margin-top:100px; }
+    .about-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+    .about-stat-card { background:var(--surface); border:1px solid var(--blue-border); border-radius:14px; padding:1.6rem; text-align:center; display:flex; flex-direction:column; align-items:center; gap:.6rem; transition:border-color .3s, background .3s, transform .3s; }
+    .about-stat-card:hover { border-color:var(--blue); background:var(--blue-dim); transform:translateY(-6px); }
+    .about-stat-card__number { font-family:var(--font-mono); font-size:2rem; color:var(--blue); font-weight:700; }
+    .about-stat-card__label { font-size:.78rem; color:var(--gray); text-transform:uppercase; letter-spacing:1px; }
+    .focus-box { background:var(--surface); border:1px solid var(--blue-border); border-radius:14px; padding:1.5rem 1.6rem; transition:border-color .3s; }
+    .focus-box:hover { border-color:var(--blue); }
+    .focus-box__title { font-family:var(--font-serif); font-size:1rem; color:var(--blue); margin-bottom:1rem; }
+    .badge-row { display:flex; flex-wrap:wrap; gap:.6rem; }
+    .badge { background:var(--blue-dim); border:1px solid var(--blue-border); color:var(--blue); padding:.35rem .9rem; border-radius:50px; font-size:.75rem; font-weight:600; letter-spacing:.5px; }
+
+    /* ── SERVICES ── */
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.6rem; }
+    .service-card { background:var(--surface); border:1px solid var(--blue-border); border-radius:16px; padding:2rem; transition:border-color .3s, background .3s, transform .3s, box-shadow .3s; position:relative; overflow:hidden; }
+    .service-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--blue); opacity:0; transition:opacity .3s; }
+    .service-card:hover::before { opacity:1; }
+    .service-card:hover { border-color:var(--blue); background:rgba(59,130,246,.06); transform:translateY(-7px); box-shadow:0 18px 48px rgba(59,130,246,.13); }
+    .service-card__icon { width:52px; height:52px; background:var(--blue-dim); border:1px solid var(--blue-border); border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:1.2rem; font-size:1.4rem; color:var(--blue); }
+    .service-card__title { font-family:var(--font-mono); font-size:1rem; font-weight:700; color:var(--white); margin-bottom:.5rem; }
+    .service-card__desc { font-size:.85rem; color:var(--muted); line-height:1.65; }
+    .service-card__list { list-style:none; margin-top:1rem; display:flex; flex-direction:column; gap:.4rem; }
+    .service-card__list li { font-size:.8rem; color:var(--gray); display:flex; align-items:center; gap:.5rem; }
+    .service-card__list li::before { content:'→'; color:var(--blue); font-size:.75rem; flex-shrink:0; }
+
+    /* ── SKILLS ── */
+    .skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.6rem; }
+    .skill-box { background:var(--surface); border:1px solid var(--blue-border); border-radius:16px; padding:1.8rem 2rem; transition:border-color .3s; }
+    .skill-box:hover { border-color:var(--blue); }
+    .skill-box__title { font-family:var(--font-serif); font-size:1.1rem; color:var(--blue); margin-bottom:1.4rem; display:flex; align-items:center; gap:.6rem; }
+    .skill-row { margin-bottom:1.2rem; }
+    .skill-row:last-child { margin-bottom:0; }
+    .skill-row__meta { display:flex; justify-content:space-between; margin-bottom:.45rem; }
+    .skill-row__name { font-size:.85rem; color:var(--gray); font-weight:500; }
+    .skill-row__pct { font-family:var(--font-mono); font-size:.85rem; color:var(--blue); }
+    .skill-bar { height:5px; background:rgba(59,130,246,.1); border-radius:10px; overflow:hidden; position:relative; }
+    .skill-bar__fill { height:100%; background:var(--blue); border-radius:10px; position:relative; overflow:hidden; }
+    /* FIXED: shimmer only plays on hover of the parent skill-box */
+    .skill-bar__fill::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:rgba(255,255,255,.3); opacity:0; }
+    .skill-box:hover .skill-bar__fill::after { animation:shimmer 2.8s infinite; opacity:1; }
+
+    /* ── TIMELINE ── */
+    .timeline { position:relative; padding-left:3rem; }
+    .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,var(--blue),rgba(59,130,246,.1)); }
+    .timeline-item { position:relative; margin-bottom:2rem; display:flex; gap:1.4rem; align-items:flex-start; }
+    .timeline-item:last-child { margin-bottom:0; }
+    .timeline-item__dot { position:absolute; left:-3.6rem; top:1.3rem; width:13px; height:13px; background:var(--blue); border:3px solid var(--black); border-radius:50%; box-shadow:0 0 14px rgba(59,130,246,.7); animation:pulse 2.5s infinite; }
+    .timeline-item__dot--inactive { animation:none; background:var(--surface2); border-color:var(--blue); }
+    .timeline-item__date { width:110px; flex-shrink:0; padding-top:.2rem; }
+    .timeline-item__year { font-family:var(--font-mono); font-size:.7rem; color:var(--blue); line-height:1.5; }
+    .timeline-item__type { font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-top:.25rem; }
+    .timeline-item__body { flex:1; background:var(--surface); border:1px solid var(--blue-border); border-radius:14px; padding:1.4rem 1.6rem; transition:border-color .3s, background .3s, transform .3s; position:relative; }
+    .timeline-item__body::before { content:''; position:absolute; left:-8px; top:1.2rem; width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-right:8px solid var(--blue-border); }
+    .timeline-item__body:hover { border-color:var(--blue); background:rgba(59,130,246,.05); transform:translateX(6px); }
+    .timeline-item__company { font-family:var(--font-serif); font-size:1.08rem; color:var(--white); margin-bottom:.25rem; }
+    .timeline-item__role { font-size:.83rem; color:var(--blue); font-weight:600; margin-bottom:.6rem; display:flex; align-items:center; gap:.5rem; }
+    .timeline-item__role::before { content:''; width:16px; height:2px; background:var(--blue); border-radius:2px; }
+    .timeline-item__desc { font-size:.84rem; color:var(--gray); line-height:1.7; }
+
+    /* ── PROJECTS ── */
+    .filter-row { display:flex; gap:.7rem; flex-wrap:wrap; margin-bottom:2.4rem; }
+    .filter-btn { padding:.45rem 1.1rem; background:transparent; border:1px solid var(--blue-border); color:var(--muted); border-radius:50px; font-size:.75rem; cursor:pointer; transition:all .3s; font-family:var(--font-body); text-transform:uppercase; letter-spacing:.8px; }
+    .filter-btn:hover, .filter-btn--active { background:var(--blue); color:var(--black); border-color:var(--blue); }
+
+    .project-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.8rem; }
+
+    /* PERFORMANCE FIX: GPU-composited properties only on hover, no layout-thrashing transforms */
+    .project-card {
+      background:var(--surface);
+      border:1px solid var(--blue-border);
+      border-radius:16px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      /* Use will-change only on the properties we actually animate */
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+      position:relative;
+      /* Force GPU layer so compositing happens off main thread */
+      transform:translateZ(0);
+    }
+    .project-card::after { content:''; position:absolute; inset:0; border-radius:16px; opacity:0; box-shadow:0 0 0 2px var(--blue); transition:opacity .25s ease; pointer-events:none; }
+    .project-card:hover::after { opacity:1; }
+    .project-card:hover {
+      border-color:var(--blue);
+      transform:translateY(-8px) translateZ(0);
+      box-shadow:0 20px 45px rgba(59,130,246,.14);
+    }
+
+    .project-card__top { padding:1.4rem 1.4rem 0; display:flex; align-items:center; justify-content:space-between; }
+    /* FIXED: float only plays on hover, not always — huge perf win with many cards */
+    .project-card__icon {
+      width:46px; height:46px; background:var(--blue-dim); border:1px solid var(--blue-border);
+      border-radius:12px; display:flex; align-items:center; justify-content:center;
+      font-size:1.2rem; color:var(--blue);
+      /* No animation by default */
+    }
+    .project-card:hover .project-card__icon {
+      animation:float 2s ease-in-out infinite;
+    }
+    .project-card__category { font-size:.68rem; text-transform:uppercase; letter-spacing:1.2px; padding:.3rem .8rem; background:var(--blue-dim); color:var(--blue); border-radius:50px; font-weight:600; border:1px solid var(--blue-border); }
+    .project-card__body { padding:1rem 1.4rem 1.2rem; flex:1; }
+    .project-card__title { font-family:var(--font-serif); font-size:1.15rem; color:var(--white); margin-bottom:.5rem; line-height:1.3; }
+    .project-card__desc { color:var(--muted); font-size:.83rem; line-height:1.65; }
+    .project-tags { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.8rem; }
+    .project-tag { font-size:.68rem; padding:.22rem .55rem; background:var(--blue-dim); color:var(--blue); border-radius:4px; border:1px solid rgba(59,130,246,.15); }
+    .project-card__footer { padding:1rem 1.4rem; border-top:1px solid rgba(59,130,246,.1); display:flex; justify-content:flex-end; }
+    .project-link { color:var(--white); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:.4rem; font-size:.8rem; padding:.45rem 1rem; border-radius:6px; border:1px solid var(--blue-border); transition:background .25s ease, color .25s ease, border-color .25s ease, gap .25s ease; }
+    .project-link i { font-size:.75rem; transition:transform .25s ease; }
+    .project-link:hover { background:var(--blue); color:var(--black); border-color:var(--blue); gap:.7rem; }
+    .project-link:hover i { transform:translate(3px,-3px); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.6rem; }
+    .testimonial-card { background:var(--surface); border:1px solid var(--blue-border); border-radius:16px; padding:1.8rem; transition:border-color .3s, background .3s, transform .3s; position:relative; }
+    .testimonial-card:hover { border-color:var(--blue); background:rgba(59,130,246,.05); transform:translateY(-6px); }
+    .testimonial-card__tag { position:absolute; top:1.2rem; right:1.2rem; font-size:.65rem; text-transform:uppercase; letter-spacing:.8px; padding:.2rem .6rem; background:var(--blue-dim); color:var(--blue); border-radius:50px; border:1px solid var(--blue-border); }
+    .testimonial-card__stars { color:var(--blue); font-size:.85rem; margin-bottom:.8rem; letter-spacing:2px; }
+    .testimonial-card__text { color:var(--gray); line-height:1.8; font-style:italic; font-size:.88rem; margin-bottom:1.2rem; }
+    .testimonial-card__author { display:flex; align-items:center; gap:.8rem; }
+    .testimonial-card__avatar { width:42px; height:42px; background:var(--blue); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--black); font-size:.95rem; flex-shrink:0; }
+    .testimonial-card__author-info h4 { color:var(--blue); font-size:.88rem; margin-bottom:.15rem; }
+    .testimonial-card__author-info p { color:var(--muted); font-size:.78rem; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { overflow:hidden; position:relative; padding:.8rem 0; }
+    .marquee-wrap::before, .marquee-wrap::after { content:''; position:absolute; top:0; bottom:0; width:120px; z-index:2; pointer-events:none; }
+    .marquee-wrap::before { left:0; background:linear-gradient(to right,var(--black),transparent); }
+    .marquee-wrap::after  { right:0; background:linear-gradient(to left,var(--black),transparent); }
+    .marquee-track { display:flex; gap:1.2rem; width:max-content; animation:marquee 26s linear infinite; }
+    .marquee-track:hover { animation-play-state:paused; }
+    .tool-pill { background:var(--surface); border:1px solid var(--blue-border); border-radius:10px; padding:.7rem 1.6rem; display:flex; align-items:center; height:64px; flex-shrink:0; transition:border-color .3s, background .3s, transform .3s; }
+    .tool-pill:hover { border-color:var(--blue); background:var(--blue-dim); transform:translateY(-3px); }
+    .tool-pill svg { height:32px; width:auto; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; margin-bottom:2.5rem; }
+    .contact-card { background:var(--surface); border:1px solid var(--blue-border); border-radius:14px; padding:1.8rem; text-align:center; display:flex; flex-direction:column; align-items:center; gap:.6rem; transition:border-color .3s, background .3s, transform .3s; }
+    .contact-card:hover { border-color:var(--blue); background:var(--blue-dim); transform:translateY(-6px); }
+    .contact-card__icon { font-size:1.6rem; color:var(--blue); }
+    .contact-card h3 { font-size:.95rem; color:var(--white); }
+    .contact-card a, .contact-card p { color:var(--gray); text-decoration:none; font-size:.88rem; transition:color .3s; }
+    .contact-card a:hover { color:var(--blue); }
+    .social-row { display:flex; justify-content:center; gap:.8rem; margin-top:1.8rem; flex-wrap:wrap; }
+    .social-link { width:46px; height:46px; display:flex; align-items:center; justify-content:center; background:var(--blue-dim); border:1px solid var(--blue-border); border-radius:50%; color:var(--blue); text-decoration:none; transition:background .3s, color .3s, transform .3s, box-shadow .3s; font-size:1rem; }
+    .social-link:hover { background:var(--blue); color:var(--black); transform:translateY(-3px); box-shadow:0 8px 22px rgba(59,130,246,.35); }
+
+    /* ── FOOTER ── */
+    footer { border-top:1px solid var(--blue-border); padding:2.2rem 0; text-align:center; color:var(--muted); background:rgba(0,0,0,.25); }
+    footer p { font-size:.85rem; margin-bottom:.5rem; }
+    footer .footer-name { font-family:var(--font-display); font-size:1.3rem; color:var(--blue); margin-bottom:.6rem; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity:0; transform:translateY(28px); }
+    .reveal.is-visible { opacity:1; transform:translateY(0); transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+
+    /* ── EMAIL TOAST (FIX for desktop mailto:) ── */
+    .email-toast {
+      position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px);
+      background:var(--blue); color:var(--black); padding:.7rem 1.6rem;
+      border-radius:8px; font-weight:700; font-size:.85rem;
+      box-shadow:0 8px 30px rgba(59,130,246,.4);
+      transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      opacity:0; pointer-events:none; z-index:9999; white-space:nowrap;
+    }
+    .email-toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+    /* ── RESPONSIVE TABLET ── */
+    @media (max-width:768px) {
+      .container { padding:0 1.15rem; }
+      .nav-links { display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0; background:rgba(17,17,17,.98); padding:1rem; border-bottom:1px solid var(--blue-border); max-height:80vh; overflow-y:auto; }
+      .nav-links.is-open { display:flex; }
+      .nav-links a { padding:.85rem 0; border-bottom:1px solid rgba(59,130,246,.05); display:block; font-size:.95rem; }
+      .menu-toggle { display:flex; }
+      .hero { padding:1.5rem 0; min-height:auto; margin-top:64px; }
+      .hero__stats { grid-template-columns:repeat(2,1fr); gap:.8rem; margin:1.6rem 0; }
+      .stat-card { padding:1.1rem .8rem; }
+      .hero__pitch { font-size:.9rem; padding:.8rem 0; }
+      .cta-row { flex-direction:column; width:100%; gap:.8rem; }
+      .cta-row .btn { width:100%; justify-content:center; padding:.9rem 1.5rem; }
+      .about-grid { grid-template-columns:1fr; gap:2rem; }
+      .about-right { margin-top:0; }
+      .orbit-ring { display:none; }
+      .section-header { margin-bottom:2.2rem; }
+      .timeline { padding-left:1.8rem; }
+      .timeline-item__dot { left:-2.4rem; }
+      .timeline-item { flex-direction:column; gap:.6rem; }
+      .timeline-item__date { width:100%; display:flex; align-items:center; gap:.6rem; }
+      .timeline-item__body { padding:1.2rem 1.3rem; }
+      .timeline-item__body::before { display:none; }
+      .timeline-item__body:hover { transform:none; }
+      .project-grid { grid-template-columns:1fr; }
+      .skills-grid { grid-template-columns:1fr; }
+      .services-grid { grid-template-columns:1fr; }
+      .testimonials-grid { grid-template-columns:1fr; }
+      .skill-box { padding:1.5rem 1.3rem; }
+      .service-card { padding:1.6rem; }
+      .section { padding:3rem 0; }
+      .marquee-wrap::before, .marquee-wrap::after { width:50px; }
+      .tool-pill { padding:.6rem 1.1rem; height:56px; }
+      .contact-grid { grid-template-columns:1fr; gap:1rem; }
+      .contact-card a { word-break:break-word; }
+      .social-row { gap:.7rem; }
+      #contact .btn { width:100%; justify-content:center; margin:0 0 .8rem 0 !important; display:flex; }
+      .filter-row { gap:.5rem; }
+      .filter-btn { padding:.5rem 1rem; font-size:.72rem; }
+    }
+
+    /* ── RESPONSIVE MOBILE ── */
+    @media (max-width:480px) {
+      .logo { font-size:1.4rem; }
+      .hero__eyebrow { font-size:.68rem; letter-spacing:2px; }
+      .stat-card__number { font-size:1.4rem; }
+      .stat-card__label { font-size:.62rem; }
+      .btn { font-size:.75rem; padding:.85rem 1.3rem; }
+      .section-header__title { font-size:1.6rem; }
+      .section-header__sub { font-size:.87rem; }
+      .about-stat-card { padding:1.2rem; }
+      .about-stat-card__number { font-size:1.6rem; }
+      .service-card__title { font-size:.92rem; }
+      .timeline-item__company { font-size:1rem; }
+      .project-card__title { font-size:1.05rem; }
+      .contact-card { padding:1.4rem; }
+      .social-link { width:42px; height:42px; font-size:.9rem; }
+      .section { padding:2.4rem 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- EMAIL TOAST (shown when mailto: fails on desktop) -->
+  <div class="email-toast" id="emailToast">
+    📋 Email copied! — juniorsattar@gmail.com
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Abdul Sattar</div>
+        <ul class="nav-links" id="nav-menu">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#expertise">Expertise</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="orbit-ring orbit-ring--sm"></div>
+    <div class="orbit-ring orbit-ring--lg"></div>
+    <div class="container" style="width:100%">
+      <div class="hero__inner">
+        <p class="hero__eyebrow">GoHighLevel CRM &amp; Funnel Specialist</p>
+        <span class="hero__name">Abdul Sattar</span>
+        <p class="hero__role">Your Vision, Automated</p>
+        <p class="hero__pitch">
+          I build complete GoHighLevel CRM systems, high-converting sales funnels, and
+          end-to-end workflow automation that help service businesses capture more leads,
+          close faster, and run on autopilot — 24/7.
+        </p>
+        <div class="hero__stats">
+          <div class="stat-card reveal"><div class="stat-card__number" data-target="6" data-suffix="+">6+</div><div class="stat-card__label">Months in GHL</div></div>
+          <div class="stat-card reveal"><div class="stat-card__number" data-target="12" data-suffix="+">12+</div><div class="stat-card__label">GHL Builds</div></div>
+          <div class="stat-card reveal"><div class="stat-card__number" data-target="8" data-suffix="+">8+</div><div class="stat-card__label">Industries</div></div>
+          <div class="stat-card reveal"><div class="stat-card__number" data-target="20" data-suffix="+">20+</div><div class="stat-card__label">Happy Clients</div></div>
+        </div>
+        <div class="cta-row">
+          <button class="btn btn--primary" onclick="handleEmail(event)">
+            <i class="fas fa-paper-plane"></i>
+            Let's Build Together
+          </button>
+          <a href="#projects" class="btn btn--ghost">
+            <i class="fas fa-eye"></i>
+            View My Work
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <div class="section-header">
+            <span class="section-header__tag">Who I Am</span>
+            <h2 class="section-header__title">GoHighLevel Specialist<br>Based in Karachi</h2>
+            <p class="section-header__sub">CS graduate turned CRM builder — turning business chaos into automated, revenue-generating systems.</p>
+          </div>
+          <h3>I Automate Service Businesses</h3>
+          <p>I'm Abdul Sattar, a GoHighLevel specialist designing complete CRM systems, high-converting funnels, and workflow automations for service businesses — from healthcare and real estate to moving and pest control.</p>
+          <p>I work inside GoHighLevel daily — building sub-accounts, pipelines, calendars, and Conversation AI setups, then wiring it all together with automations and SMS campaigns built for actual inbox deliverability.</p>
+          <p>My goal: build systems that cut manual work, convert more leads, and grow revenue — even when you're not at your desk.</p>
+        </div>
+        <div class="about-right">
+          <div class="about-stat-grid">
+            <div class="about-stat-card"><div class="about-stat-card__number" data-target="12" data-suffix="+">12+</div><div class="about-stat-card__label">GHL Builds</div></div>
+            <div class="about-stat-card"><div class="about-stat-card__number" data-target="8" data-suffix="+">8+</div><div class="about-stat-card__label">Industries</div></div>
+            <div class="about-stat-card"><div class="about-stat-card__number" data-target="20" data-suffix="+">20+</div><div class="about-stat-card__label">Clients</div></div>
+            <div class="about-stat-card"><div class="about-stat-card__number" data-target="6" data-suffix="+">6+</div><div class="about-stat-card__label">Mos in GHL</div></div>
+          </div>
+          <div class="focus-box">
+            <h4 class="focus-box__title">Core Focus Areas</h4>
+            <div class="badge-row">
+              <span class="badge">GoHighLevel CRM</span>
+              <span class="badge">Workflow Automation</span>
+              <span class="badge">Funnels &amp; Websites</span>
+              <span class="badge">Conversation AI</span>
+              <span class="badge">SMS &amp; Email Marketing</span>
+              <span class="badge">API Integrations</span>
+              <span class="badge">White-Label SaaS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section section--alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">What I Build</span>
+        <h2 class="section-header__title">Complete GoHighLevel Solutions</h2>
+        <p class="section-header__sub">End-to-end GHL builds that automate lead capture, nurturing, booking, and follow-up — so your team focuses on closing.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-card__icon"><i class="fas fa-diagram-project"></i></div>
+          <div class="service-card__title">CRM &amp; Pipeline Setup</div>
+          <p class="service-card__desc">Full GHL sub-account configuration from scratch — built to match your sales process.</p>
+          <ul class="service-card__list"><li>Custom pipelines &amp; opportunity stages</li><li>Smart lists, tags &amp; custom fields</li><li>Calendar &amp; appointment booking</li></ul>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__icon"><i class="fas fa-bolt"></i></div>
+          <div class="service-card__title">Workflow Automation</div>
+          <p class="service-card__desc">24/7 automations that nurture leads and handle repetitive tasks without a single click.</p>
+          <ul class="service-card__list"><li>Missed-call text-back sequences</li><li>Appointment reminders &amp; confirmations</li><li>Review request &amp; reputation workflows</li><li>Lead nurture &amp; re-engagement campaigns</li></ul>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__icon"><i class="fas fa-filter"></i></div>
+          <div class="service-card__title">Funnels &amp; Websites</div>
+          <p class="service-card__desc">High-converting sales funnels and responsive websites built entirely inside GoHighLevel.</p>
+          <ul class="service-card__list"><li>Lead capture &amp; opt-in funnels</li><li>Service &amp; booking landing pages</li><li>Multi-step quote request flows</li><li>Full responsive GHL websites</li></ul>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__icon"><i class="fas fa-robot"></i></div>
+          <div class="service-card__title">Conversation AI &amp; Chatbots</div>
+          <p class="service-card__desc">AI-powered lead conversations that qualify prospects and book appointments on autopilot.</p>
+          <ul class="service-card__list"><li>GHL Conversation AI configuration</li><li>AI chatbot setup &amp; prompt engineering</li><li>Auto-response for Instagram, FB &amp; SMS</li><li>Lead qualification flows</li></ul>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__icon"><i class="fas fa-envelope-open-text"></i></div>
+          <div class="service-card__title">SMS &amp; Email Marketing</div>
+          <p class="service-card__desc">Deliverability-optimised campaigns that reach the inbox and drive real responses.</p>
+          <ul class="service-card__list"><li>Automated drip sequences</li><li>Broadcast &amp; segmented campaigns</li><li>Twilio &amp; Mailgun integration</li><li>Advanced audience segmentation</li></ul>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__icon"><i class="fas fa-plug"></i></div>
+          <div class="service-card__title">Integrations &amp; SaaS</div>
+          <p class="service-card__desc">Connect GHL to your entire stack and deploy white-label SaaS solutions for your clients.</p>
+          <ul class="service-card__list"><li>Stripe, Zapier &amp; Make (Integromat)</li><li>Google Calendar &amp; Sheet sync</li><li>Custom API integrations &amp; flows</li><li>White-label SaaS Configurator</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section id="expertise" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">GHL Skills</span>
+        <h2 class="section-header__title">Technical Expertise</h2>
+        <p class="section-header__sub">Deep GHL platform knowledge backed by real development skills — so builds go beyond clicks and templates.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-box reveal">
+          <div class="skill-box__title"><i class="fas fa-diagram-project"></i> GoHighLevel Platform</div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">CRM &amp; Pipeline Management</span><span class="skill-row__pct">92%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:92%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">Workflow &amp; Automation Builder</span><span class="skill-row__pct">90%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:90%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">Funnels &amp; Website Builder</span><span class="skill-row__pct">88%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:88%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">Conversation AI &amp; Chatbot</span><span class="skill-row__pct">82%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:82%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">A2P 10DLC &amp; LC Phone</span><span class="skill-row__pct">80%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:80%"></div></div></div>
+        </div>
+        <div class="skill-box reveal">
+          <div class="skill-box__title"><i class="fas fa-code"></i> Integrations &amp; Dev Skills</div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">API Integration</span><span class="skill-row__pct">78%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:78%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">HTML / CSS (Custom Sections)</span><span class="skill-row__pct">82%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:82%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">WordPress / Elementor</span><span class="skill-row__pct">85%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:85%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">JavaScript (Automation Logic)</span><span class="skill-row__pct">55%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:55%"></div></div></div>
+          <div class="skill-row"><div class="skill-row__meta"><span class="skill-row__name">Zapier / Make (Integromat)</span><span class="skill-row__pct">72%</span></div><div class="skill-bar"><div class="skill-bar__fill" style="width:72%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section section--alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">Career</span>
+        <h2 class="section-header__title">Professional Journey</h2>
+        <p class="section-header__sub">From internships to full-time GHL specialist — building automation systems that matter.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-item__dot"></div>
+          <div class="timeline-item__date"><div class="timeline-item__year">Jan 2026<br>– Present</div><div class="timeline-item__type">Full-Time</div></div>
+          <div class="timeline-item__body">
+            <div class="timeline-item__company">Vision X</div>
+            <div class="timeline-item__role">GoHighLevel Developer</div>
+            <p class="timeline-item__desc">Design and deploy complete GHL CRM systems for client sub-accounts. Build high-converting funnels, configure workflow automations (missed-call text-back, lead nurture, review requests), set up Conversation AI chatbots, and integrate third-party tools via API and Zapier. Delivered 12+ live GHL builds across healthcare, home services, moving, and pest control industries.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__dot timeline-item__dot--inactive"></div>
+          <div class="timeline-item__date"><div class="timeline-item__year">Mar 2024<br>– Jun 2024</div><div class="timeline-item__type">Full-Time</div></div>
+          <div class="timeline-item__body">
+            <div class="timeline-item__company">MITSOL TECH</div>
+            <div class="timeline-item__role">Full-Stack Developer</div>
+            <p class="timeline-item__desc">Developed and maintained dynamic web applications using PHP. Gained backend architecture experience that now powers my custom API integration logic on GHL builds.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__dot timeline-item__dot--inactive"></div>
+          <div class="timeline-item__date"><div class="timeline-item__year">Jul 2023<br>– Aug 2023</div><div class="timeline-item__type">Internship</div></div>
+          <div class="timeline-item__body">
+            <div class="timeline-item__company">CodeSoft</div>
+            <div class="timeline-item__role">Web Development Intern</div>
+            <p class="timeline-item__desc">Deepened full-stack development knowledge and deployed applications across the complete development lifecycle.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__dot timeline-item__dot--inactive"></div>
+          <div class="timeline-item__date"><div class="timeline-item__year">Jun – Jul 2023</div><div class="timeline-item__type">Internship</div></div>
+          <div class="timeline-item__body">
+            <div class="timeline-item__company">Coderscave</div>
+            <div class="timeline-item__role">Web Development Intern</div>
+            <p class="timeline-item__desc">Remote internship focused on building production-ready web projects and expanding technical skills across multiple frameworks.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-item__dot timeline-item__dot--inactive"></div>
+          <div class="timeline-item__date"><div class="timeline-item__year">Apr – May 2023</div><div class="timeline-item__type">Internship</div></div>
+          <div class="timeline-item__body">
+            <div class="timeline-item__company">SYNC Interns</div>
+            <div class="timeline-item__role">Web Development Intern</div>
+            <p class="timeline-item__desc">Developed and deployed web applications, honing collaboration skills and best practices under experienced developers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">Portfolio</span>
+        <h2 class="section-header__title">GHL Builds &amp; Projects</h2>
+        <p class="section-header__sub">Real CRM systems and funnels delivered for clients across industries.</p>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-btn filter-btn--active" onclick="filterProjects('all',this)">All</button>
+        <button class="filter-btn" onclick="filterProjects('crm',this)">Website</button>
+        <button class="filter-btn" onclick="filterProjects('funnel',this)">Funnels</button>
+      </div>
+
+      <div class="project-grid">
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-teeth"></i></div><span class="project-card__category">Funnel + CRM</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Thrive Spinal Care</h3><p class="project-card__desc">Full GHL funnel for a chiropractic clinic — automated appointment booking, AI chatbot setup, and patient follow-up workflows.</p><div class="project-tags"><span class="project-tag">Chatbot</span><span class="project-tag">Appointment Booking</span><span class="project-tag">Follow-up Automation</span></div></div>
+          <div class="project-card__footer"><a href="https://special.thrivespinalcaresc.com/home-page" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-house-crack"></i></div><span class="project-card__category">Funnel + CRM</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Foundation Repair</h3><p class="project-card__desc">Home repair lead-gen funnel with multi-step capture forms, automated follow-up sequences, and customer management pipeline.</p><div class="project-tags"><span class="project-tag">Lead Capture</span><span class="project-tag">Pipeline</span><span class="project-tag">Automation</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/HEOOwgAw21ed15xmDmUn" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-broom"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Atomic Fresh – Carpet Cleaning</h3><p class="project-card__desc">Carpet cleaning service funnel with online booking, automated appointment reminders, and post-service review request workflows.</p><div class="project-tags"><span class="project-tag">Booking</span><span class="project-tag">SMS Reminders</span><span class="project-tag">Review Requests</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/vHaa01pqIelmEx7Vy4hz" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-tooth"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Dental Care Funnel</h3><p class="project-card__desc">Dentist funnel with patient intake, appointment scheduling automation, and SMS/email follow-up sequences for retention.</p><div class="project-tags"><span class="project-tag">Patient Intake</span><span class="project-tag">Scheduling</span><span class="project-tag">Follow-ups</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/11eVOKYTQeKP1q6tRqMH" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-wind"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">HVAC Service Funnel</h3><p class="project-card__desc">Air conditioning repair funnel with emergency booking flow, automated follow-ups, and seasonal campaign workflows.</p><div class="project-tags"><span class="project-tag">Emergency Booking</span><span class="project-tag">Seasonal Campaigns</span><span class="project-tag">Automation</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/OzYmiexSAulcdmM5ITOr" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-truck-moving"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">VAN JAN Moving</h3><p class="project-card__desc">Moving service funnel with quote request automation, booking confirmations, and customer follow-up sequences.</p><div class="project-tags"><span class="project-tag">Quote Automation</span><span class="project-tag">Booking</span><span class="project-tag">Follow-ups</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/UDvhBYnVyk3ileEV5OXd" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-house-chimney"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Crown Roofing</h3><p class="project-card__desc">Roof repair funnel with damage assessment form, automated quote delivery, and contractor scheduling via GHL.</p><div class="project-tags"><span class="project-tag">Lead Capture</span><span class="project-tag">Auto-Quote</span><span class="project-tag">CRM Pipeline</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/R2enRPj3oEI9mGM6zW9l" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-bug"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">We Kill Termites</h3><p class="project-card__desc">Pest control funnel with inspection booking, automated treatment reminders, and customer retention workflows.</p><div class="project-tags"><span class="project-tag">Inspection Booking</span><span class="project-tag">Reminders</span><span class="project-tag">Retention Campaigns</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/XIoh1KPC6O26dL7MYVNb" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-trash-can"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Atomic Waste – Skip Hire</h3><p class="project-card__desc">Skip hire funnel with bin selection flow, automated booking confirmations, and collection scheduling automation.</p><div class="project-tags"><span class="project-tag">Booking Flow</span><span class="project-tag">Scheduling</span><span class="project-tag">SMS Automation</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/i5KDrPV1IewFs8W9wNfe" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <!-- FIX: fa-floor doesn't exist → replaced with fa-grip-lines (floor lines) -->
+        <div class="project-card reveal" data-category="funnel">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-grip-lines"></i></div><span class="project-card__category">GHL Funnel</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Gain &amp; Grow – Floor Restoration</h3><p class="project-card__desc">Floor restoration funnel with lead qualification, automated estimate requests, and pipeline management on GHL.</p><div class="project-tags"><span class="project-tag">Lead Qualification</span><span class="project-tag">Estimate Automation</span><span class="project-tag">Pipeline</span></div></div>
+          <div class="project-card__footer"><a href="https://sites.leadconnectorhq.com/preview/K8jTQc5ykVkyUMM1SCje" target="_blank" class="project-link">Visit Funnel <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="crm">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-boxes-stacked"></i></div><span class="project-card__category">Website</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">Coyotes Moving</h3><p class="project-card__desc">Professional moving service website designed to showcase services and make it easy for customers to request a move.</p><div class="project-tags"><span class="project-tag">GHL Website</span><span class="project-tag">Moving Service</span></div></div>
+          <div class="project-card__footer"><a href="https://coyotesmoving.com/" target="_blank" class="project-link">Visit Site <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="project-card reveal" data-category="crm">
+          <div class="project-card__top"><div class="project-card__icon"><i class="fas fa-user-tie"></i></div><span class="project-card__category">CRM + Website</span></div>
+          <div class="project-card__body"><h3 class="project-card__title">David's Portfolio – CRM Lead System</h3><p class="project-card__desc">Portfolio website with GHL CRM for lead capture and automated e-book delivery via email.</p><div class="project-tags"><span class="project-tag">GHL Website</span><span class="project-tag">Lead Management</span><span class="project-tag">CRM</span></div></div>
+          <div class="project-card__footer"><a href="https://davidkruegerofficial.com/" target="_blank" class="project-link">Visit Site <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="section section--alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">Client Feedback</span>
+        <h2 class="section-header__title">What Clients Say</h2>
+        <p class="section-header__sub">Real feedback from service businesses that trusted me with their GHL builds.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <span class="testimonial-card__tag">CRM + Automation</span>
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__text">Abdul built our complete corporate identity inside GHL. He has a lot of experience and is genuinely concerned about the client's needs. Exceptional quality and delivery — highly recommend.</p>
+          <div class="testimonial-card__author"><div class="testimonial-card__avatar">D</div><div class="testimonial-card__author-info"><h4>Daniel Lewis</h4><p>Business Owner</p></div></div>
+        </div>
+        <div class="testimonial-card reveal">
+          <span class="testimonial-card__tag">Funnel Build</span>
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__text">Working with Abdul on our GHL funnel was a game changer. The automation he set up is not only technically solid but incredibly user-friendly for our team. Lead response time dropped drastically.</p>
+          <div class="testimonial-card__author"><div class="testimonial-card__avatar">J</div><div class="testimonial-card__author-info"><h4>Jessica Miller</h4><p>Marketing Director</p></div></div>
+        </div>
+        <div class="testimonial-card reveal">
+          <span class="testimonial-card__tag">Workflow Automation</span>
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__text">Impressed by his attention to detail and commitment to excellence. The automated follow-up sequences he built are running perfectly — our team now closes more deals with less manual effort.</p>
+          <div class="testimonial-card__author"><div class="testimonial-card__avatar">E</div><div class="testimonial-card__author-info"><h4>Emily Evans</h4><p>Project Manager</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS MARQUEE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">Platforms</span>
+        <h2 class="section-header__title">Tools &amp; Platforms I Work With</h2>
+      </div>
+    </div>
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <div class="tool-pill"><svg viewBox="0 0 200 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#3b82f6" stroke-width="2"/><path d="M24 10L24 24L34 24" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="4" fill="#3b82f6" opacity=".5"/><text x="48" y="30" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#3b82f6">GoHighLevel</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 150 48" fill="none"><path d="M8 14L8 30Q8 38 16 38Q24 38 24 30L24 14" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/><circle cx="36" cy="26" r="10" stroke="#3b82f6" stroke-width="2"/><circle cx="36" cy="26" r="4" fill="rgba(59,130,246,.3)"/><text x="54" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">Upwork</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 140 48" fill="none"><rect x="4" y="8" width="32" height="32" rx="8" fill="rgba(59,130,246,.1)" stroke="#3b82f6" stroke-width="1.5"/><text x="10" y="31" font-family="Arial,sans-serif" font-size="20" font-weight="900" fill="#3b82f6">f</text><circle cx="29" cy="13" r="3" fill="#3b82f6"/><text x="44" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">Fiverr</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 140 48" fill="none"><rect x="6" y="14" width="32" height="24" rx="4" stroke="#3b82f6" stroke-width="1.8" fill="rgba(59,130,246,.08)"/><path d="M6 22L58 22" stroke="#3b82f6" stroke-width="1.8"/><text x="46" y="30" font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="#3b82f6">Stripe</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 160 48" fill="none"><path d="M26 8Q34 6 36 14L38 38L12 34L14 12Q14 8 18 8Z" stroke="#3b82f6" stroke-width="1.8" fill="rgba(59,130,246,.08)"/><circle cx="32" cy="10" r="3" fill="#3b82f6"/><text x="48" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">Shopify</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 140 48" fill="none"><rect x="4" y="8" width="34" height="34" rx="8" fill="rgba(59,130,246,.12)" stroke="#3b82f6" stroke-width="1.6"/><path d="M12 28L16 20L22 26L28 18L34 28" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="46" y="30" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#3b82f6">Zapier</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 130 48" fill="none"><path d="M24 6C14 6 6 14 6 24C6 32.4 11.4 39.5 18.8 42C19.7 42.2 20 41.6 20 41.1L20 38.1C15.2 39.2 14.1 36 14.1 36C13.3 34 12.1 33.4 12.1 33.4C10.4 32.3 12.2 32.3 12.2 32.3C14 32.4 15 34.2 15 34.2C16.7 37.1 19.4 36.3 20.2 35.8C20.4 34.6 20.9 33.8 21.4 33.4C17.4 32.9 13.2 31.4 13.2 24.5C13.2 22.5 13.9 20.9 15.1 19.6C14.9 19.1 14.2 17.3 15.3 14.8C15.3 14.8 16.9 14.3 20.1 16.6C21.5 16.2 23 16 24.5 16C26 16 27.5 16.2 28.9 16.6C32.1 14.3 33.7 14.8 33.7 14.8C34.8 17.3 34.1 19.1 33.9 19.6C35.1 20.9 35.8 22.5 35.8 24.5C35.8 31.4 31.6 32.9 27.5 33.4C28.2 34 28.8 35.2 28.8 37L28.8 41.1C28.8 41.6 29.1 42.2 30 42C37.4 39.5 42.8 32.4 42.8 24C42.8 14 34.8 6 24 6Z" fill="#3b82f6"/><text x="52" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">GitHub</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 110 48" fill="none"><path d="M10 34Q10 14 30 14Q50 14 50 34" stroke="#3b82f6" stroke-width="1.8"/><rect x="6" y="34" width="10" height="14" rx="4" fill="rgba(59,130,246,.12)" stroke="#3b82f6" stroke-width="1.4"/><rect x="44" y="34" width="10" height="14" rx="4" fill="rgba(59,130,246,.12)" stroke="#3b82f6" stroke-width="1.4"/><circle cx="30" cy="34" r="4" fill="rgba(59,130,246,.3)" stroke="#3b82f6" stroke-width="1.2"/><text x="62" y="30" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#3b82f6">Twilio</text></svg></div>
+        <!-- Set 2 duplicate -->
+        <div class="tool-pill"><svg viewBox="0 0 200 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#3b82f6" stroke-width="2"/><path d="M24 10L24 24L34 24" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="4" fill="#3b82f6" opacity=".5"/><text x="48" y="30" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#3b82f6">GoHighLevel</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 150 48" fill="none"><path d="M8 14L8 30Q8 38 16 38Q24 38 24 30L24 14" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/><circle cx="36" cy="26" r="10" stroke="#3b82f6" stroke-width="2"/><circle cx="36" cy="26" r="4" fill="rgba(59,130,246,.3)"/><text x="54" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">Upwork</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 140 48" fill="none"><rect x="4" y="8" width="32" height="32" rx="8" fill="rgba(59,130,246,.1)" stroke="#3b82f6" stroke-width="1.5"/><text x="10" y="31" font-family="Arial,sans-serif" font-size="20" font-weight="900" fill="#3b82f6">f</text><circle cx="29" cy="13" r="3" fill="#3b82f6"/><text x="44" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">Fiverr</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 140 48" fill="none"><rect x="6" y="14" width="32" height="24" rx="4" stroke="#3b82f6" stroke-width="1.8" fill="rgba(59,130,246,.08)"/><path d="M6 22L58 22" stroke="#3b82f6" stroke-width="1.8"/><text x="46" y="30" font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="#3b82f6">Stripe</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 160 48" fill="none"><path d="M26 8Q34 6 36 14L38 38L12 34L14 12Q14 8 18 8Z" stroke="#3b82f6" stroke-width="1.8" fill="rgba(59,130,246,.08)"/><circle cx="32" cy="10" r="3" fill="#3b82f6"/><text x="48" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">Shopify</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 140 48" fill="none"><rect x="4" y="8" width="34" height="34" rx="8" fill="rgba(59,130,246,.12)" stroke="#3b82f6" stroke-width="1.6"/><path d="M12 28L16 20L22 26L28 18L34 28" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="46" y="30" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#3b82f6">Zapier</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 130 48" fill="none"><path d="M24 6C14 6 6 14 6 24C6 32.4 11.4 39.5 18.8 42C19.7 42.2 20 41.6 20 41.1L20 38.1C15.2 39.2 14.1 36 14.1 36C13.3 34 12.1 33.4 12.1 33.4C10.4 32.3 12.2 32.3 12.2 32.3C14 32.4 15 34.2 15 34.2C16.7 37.1 19.4 36.3 20.2 35.8C20.4 34.6 20.9 33.8 21.4 33.4C17.4 32.9 13.2 31.4 13.2 24.5C13.2 22.5 13.9 20.9 15.1 19.6C14.9 19.1 14.2 17.3 15.3 14.8C15.3 14.8 16.9 14.3 20.1 16.6C21.5 16.2 23 16 24.5 16C26 16 27.5 16.2 28.9 16.6C32.1 14.3 33.7 14.8 33.7 14.8C34.8 17.3 34.1 19.1 33.9 19.6C35.1 20.9 35.8 22.5 35.8 24.5C35.8 31.4 31.6 32.9 27.5 33.4C28.2 34 28.8 35.2 28.8 37L28.8 41.1C28.8 41.6 29.1 42.2 30 42C37.4 39.5 42.8 32.4 42.8 24C42.8 14 34.8 6 24 6Z" fill="#3b82f6"/><text x="52" y="30" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#3b82f6">GitHub</text></svg></div>
+        <div class="tool-pill"><svg viewBox="0 0 110 48" fill="none"><path d="M10 34Q10 14 30 14Q50 14 50 34" stroke="#3b82f6" stroke-width="1.8"/><rect x="6" y="34" width="10" height="14" rx="4" fill="rgba(59,130,246,.12)" stroke="#3b82f6" stroke-width="1.4"/><rect x="44" y="34" width="10" height="14" rx="4" fill="rgba(59,130,246,.12)" stroke="#3b82f6" stroke-width="1.4"/><circle cx="30" cy="34" r="4" fill="rgba(59,130,246,.3)" stroke="#3b82f6" stroke-width="1.2"/><text x="62" y="30" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#3b82f6">Twilio</text></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section section--alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-header__tag">Hire Me</span>
+        <h2 class="section-header__title">Let's Build Your Automation System</h2>
+        <p class="section-header__sub">Have a project? Let's talk about your GHL CRM, funnel, or workflow automation setup.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card reveal">
+          <div class="contact-card__icon"><i class="fas fa-envelope"></i></div>
+          <h3>Email</h3>
+          <a href="mailto:juniorsattar@gmail.com">juniorsattar@gmail.com</a>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-card__icon"><i class="fas fa-phone"></i></div>
+          <h3>WhatsApp / Phone</h3>
+          <a href="tel:+923352230624">+92 335 2230624</a>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-card__icon"><i class="fas fa-location-dot"></i></div>
+          <h3>Location</h3>
+          <p>Karachi, Pakistan</p>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn btn--primary" style="margin-right:.8rem" onclick="handleEmail(event)">
+          <i class="fas fa-paper-plane"></i>
+          Email Me
+        </button>
+        <a href="https://wa.me/923352230624" target="_blank" rel="noopener" class="btn btn--ghost">
+          <i class="fab fa-whatsapp"></i>
+          WhatsApp
+        </a>
+        <div class="social-row">
+          <a href="https://github.com/Code-with-Abdul-Sattar" target="_blank" rel="noopener" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="mailto:juniorsattar@gmail.com" class="social-link" title="Email" onclick="handleEmail(event)"><i class="fas fa-envelope"></i></a>
+          <a href="https://wa.me/923352230624" target="_blank" rel="noopener" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p class="footer-name">Abdul Sattar</p>
+      <p>GoHighLevel CRM &amp; Automation Specialist</p>
+      <p style="margin-top:.8rem;font-size:.78rem">&copy; 2026 Abdul Sattar Khatri &middot; Crafted with <i class="fas fa-heart" style="color:var(--blue)"></i> from Karachi</p>
+    </div>
+  </footer>
+
+  <script>
+    /* ── MOBILE MENU ── */
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu    = document.getElementById('nav-menu');
+    menuToggle.addEventListener('click', () => navMenu.classList.toggle('is-open'));
+    navMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => navMenu.classList.remove('is-open')));
+
+    /* ── SCROLL REVEAL (throttled with rAF) ── */
+    let rafPending = false;
+    function runReveal() {
+      const threshold = window.innerHeight - 80;
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach(el => {
+        if (el.getBoundingClientRect().top < threshold) el.classList.add('is-visible');
+      });
+    }
+    window.addEventListener('scroll', () => {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => { runReveal(); rafPending = false; });
+      }
+    }, { passive: true });
+    runReveal();
+
+    /* ── COUNTER ANIMATION ── */
+    document.querySelectorAll('[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target, 10);
+      const suffix = el.dataset.suffix || '';
+      const obs = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        obs.disconnect();
+        let current = 0;
+        const step = Math.max(target / 28, 1);
+        function tick() {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current) + suffix;
+          if (current < target) setTimeout(tick, 55);
+        }
+        tick();
+      });
+      obs.observe(el);
+    });
+
+    /* ── PROJECT FILTER ── */
+    function filterProjects(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('filter-btn--active'));
+      btn.classList.add('filter-btn--active');
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.style.display = (category === 'all' || card.dataset.category === category) ? 'flex' : 'none';
+      });
+    }
+
+    /* ── HEADER BORDER ON SCROLL ── */
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.style.borderBottomColor = window.scrollY > 80 ? 'rgba(59,130,246,.35)' : 'rgba(59,130,246,.2)';
+    }, { passive: true });
+
+    /* ── EMAIL HANDLER (FIX for desktop mailto: not working) ──
+       Strategy: try window.location = mailto: first.
+       If the browser blocks it (no default email client), fall back to
+       clipboard copy + toast notification.
+    */
+    function handleEmail(e) {
+      if (e) e.preventDefault();
+      const email = 'juniorsattar@gmail.com';
+      const subject = encodeURIComponent('GHL Project Inquiry');
+      const body    = encodeURIComponent("Hi Abdul,\n\nI'd like to discuss a GoHighLevel project with you.\n\n");
+      const mailto  = `mailto:${email}?subject=${subject}&body=${body}`;
+
+      // Attempt to open the mailto link
+      const win = window.open(mailto, '_self');
+
+      // After a short delay, check if it worked.
+      // If no email client opened (win is null or href didn't change),
+      // fall back to clipboard copy.
+      setTimeout(() => {
+        try {
+          navigator.clipboard.writeText(email).then(() => {
+            // Only show toast if page is still focused (mailto probably failed)
+            if (document.hasFocus()) showEmailToast();
+          }).catch(() => showEmailToast());
+        } catch(err) {
+          showEmailToast();
+        }
+      }, 800);
+    }
+
+    function showEmailToast() {
+      const toast = document.getElementById('emailToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+</html>
